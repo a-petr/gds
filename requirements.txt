@@ -1,6 +1,6 @@
 numpy
 ipywidgets
 nbinteract
-networkx
-scipy
 matplotlib
+scipy
+networkx
