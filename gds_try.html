@@ -13491,6 +13491,9 @@ div#notebook {
 <span class="k">def</span> <span class="nf">button4_click</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
     <span class="n">draw_widget</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
     <span class="n">gds</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pw_dim_widget</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">num_iter_widget</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+    
+<span class="k">with</span> <span class="n">output</span><span class="p">:</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">widgets</span><span class="o">.</span><span class="n">IntText</span><span class="p">())</span>
         
 <span class="n">button1</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="n">button1_click</span><span class="p">)</span>
 <span class="n">button2</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="n">button2_click</span><span class="p">)</span>
@@ -13544,6 +13547,109 @@ div#notebook {
 
 </div>
 
+</div>
+</div>
+
+  </div>
+
+  
+
+  <div class="
+      cell border-box-sizing code_cell rendered">
+    <div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">output</span><span class="o">.</span><span class="n">outputs</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>({&#39;output_type&#39;: &#39;display_data&#39;,
+  &#39;data&#39;: {&#39;text/plain&#39;: &#34;GridspecLayout(children=(Label(value=&#39;0&#39;, layout=Layout(grid_area=&#39;widget001&#39;)), Label(value=&#39;0&#39;, layout=Layou…&#34;,
+   &#39;application/vnd.jupyter.widget-view+json&#39;: {&#39;version_major&#39;: 2,
+    &#39;version_minor&#39;: 0,
+    &#39;model_id&#39;: &#39;40c1a86a7da7412a87920c7c613236d3&#39;}},
+  &#39;metadata&#39;: {}},
+ {&#39;output_type&#39;: &#39;display_data&#39;,
+  &#39;data&#39;: {&#39;text/plain&#39;: &#39;&lt;Figure size 720x360 with 1 Axes&gt;&#39;,
+   &#39;image/png&#39;: &#39;iVBORw0KGgoAAAANSUhEUgAAAjwAAAEeCAYAAACOg886AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAADh0RVh0U29mdHdhcmUAbWF0cGxvdGxpYiB2ZXJzaW9uMy4xLjMsIGh0dHA6Ly9tYXRwbG90bGliLm9yZy+AADFEAAAJu0lEQVR4nO3dS4he9R3G8WdiTJwxIUqhmBg0G13YRUCKLixKIoK4EHUhFhFKV4oi6MYLKoIXKmrcFEVdqLRWXVQUBBERvBUXXqCKiO0y2ZhAczWJuU0Xr2BM5h1nMnknmcfPBwLhnPMefssv/znnf8YmJycDANBs0YkeAABg1AQPAFBP8AAA9QQPAFBP8AAA9QQPAFBv8S+c9846ALBQjA07YYUHAKgneACAeoIHAKgneACAeoIHAKgneACAeic+eA4cSN58M7nkkmT58mTx4mR8PDnnnOTRR5MtW070hADAAjc2OTntVjuj3YfnmWeS++9P9u1Ldu48+vz4eHLoUHL11cmzzyZnnjnScQCABW3oPjwnJngmJ5Nbb01eeinZvfuXr1+yJFm5Mvn442T16pGMBAAseCfZxoP33z/z2EkGK0CbNiWXXZZs3z7a2QCAOvMfPF99lWzYMGXs/C/JtUlOT3Jukn8cfvLgwUH03HffvIwJAPSY/+B56qnBis0Ubk2yJMl3SV5OckuSrw+/YN++5IUXZr4yBACQ+Q6eHTuSV18drNYc4fsk/0zyUJJlSf6Q5OokfzvywrGx5LXXRjwoANBkfoPn7bcHr51P4T9JTkly/mHH1uaIFZ4k2bUree65kYwHAHSa3+D57ruhf87alWTFEcdWJJniZfVk8+bjOxcAUG1+g2f//sG+OlNYlmTHEcd2JFk+7D4AADM0v8FzxhmDPXWmcH6SA0n+e9ixfyf53VQXrzhyLQgAYLj5DZ5LLx26wnN6kuuSPJDBA8z/SvJmkpuOvHDJkuTKK0c4JADQZn6D57zzkrVrh55+OsmeJL9N8sckz2SKFZ5Fi5LbbhvVhABAofn/tMQbbyQ33TR42+pYrF+fvPfe8Z0JAGhwEn1L68CB5KKLkq+/HvrG1lATE8lHHyUXXnjcxwIAFryT6Ftaixcn776brFo19AHmKU1MJK+8InYAgFk7MV9LT5KtW5Orrhp8W2v37sEX1KeybNnguZ033kjWrRvZOADAgncS/UnrZ3efTD75JHniicEuzEuXDo6NjQ3+9LVqVXL33ckNNwxWeAAAhjtJg+dwW7YMnuvZti0ZH09Wr04uuGAQPwAAv2wBBA8AwNycRA8tAwDMM8EDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAPcEDANQTPABAvcUnegAAYOGbnEw++CD57LNk69ZkYiI5++zk2muTFStO9HTJ2OTk5HTnpz0JAPy67diRvPhi8vjjybZtyQ8/JPv3J4sWJePjycGDyfXXJ3femaxdO/JxxoaeEDwAwLH45ptk3bpk585k9+7h151ySrJkSfLAA8lddyVjQ7NkzgQPAHD8fPttctFFg9iZPiV+cvrpyR13JA89NLKxhgaPh5YBgFnZs+enlZ2fx85fk/w+ydIkfzrqd99/n2zYkLz++ryM+TOCBwCYlddeG7aysyrJfUn+PPS3u3cn9947wuGGEDwAwKw89liya9dUZ65Lck2S30z7+02bkk8/HcFg0xA8AMCMff55snHj3O6xZ0/y5JPHZ56ZEjwAwIx9+eXc73HoUPLFF3O/z2wIHgBgxrZvTw4cmPt9du6c+z1mQ/AAADM2MTHYV2euTjtt7veYDcEDAMzYuedOFzwHkuxNcvDHf3t/PHa0NWtGMNw0BA8AMGOXX56ceuqwsw8nGU/ylyR///H/Dx911fLlye23j2rCqdlpGQCYlQcfHLyavnfvsf3+zDOTzZuTxcf/E+Z2WgYAjo+bbx58HPRYjI8PPi8xgtiZluABAGblrLOSl18exMtsnHZacvHFyT33jGau6QgeAGDWrrkmef75mUfPxERyySXJW2/N/+pOIngAgGN0443J++8nV1wxWL1ZuvToa5YtS1auTB55JHnnncEX008EDy0DAHO2cWPy9NPJhx8m27YNAmjNmuSWW5L164/9mZ9ZGvrQsuABAFp4SwsA+PUSPABAPcEDANQTPABAPcEDANQTPABAvV/a63Do610AAAuFFR4AoJ7gAQDqCR4AoJ7gAQDqCR4AoJ7gAQDq/R8PQU5GEbCIpwAAAABJRU5ErkJggg==\n&#39;},
+  &#39;metadata&#39;: {}},
+ {&#39;output_type&#39;: &#39;display_data&#39;,
+  &#39;data&#39;: {&#39;text/plain&#39;: &#34;&#39;Laplacian eigenvalues are [0. 0.]&#39;&#34;},
+  &#39;metadata&#39;: {}})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+  </div>
+
+  
+
+  <div class="
+      cell border-box-sizing code_cell rendered">
+    <div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">output</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    
+
+
+
+  <div class="output_subarea output_widget_view ">
+    <button class="js-nbinteract-widget">
+      Loading widgets...
+    </button>
+  </div>
+
+</div>
+
+</div>
+</div>
+
+  </div>
+
+  
+
+  <div class="
+      cell border-box-sizing code_cell rendered">
+    <div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
 </div>
 </div>
 
