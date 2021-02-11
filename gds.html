@@ -13215,8 +13215,8 @@ div#notebook {
     <span class="k">def</span> <span class="nf">lapl_eigen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">Adj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">adj</span><span class="p">()</span>
         <span class="n">Lapl</span> <span class="o">=</span> <span class="n">csgraph</span><span class="o">.</span><span class="n">laplacian</span><span class="p">(</span><span class="n">Adj</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">vals</span> <span class="o">=</span> <span class="n">eigh</span><span class="p">(</span><span class="n">Lapl</span><span class="p">,</span> <span class="n">eigvals_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">vals</span>
+        <span class="n">vals</span><span class="p">,</span> <span class="n">U</span> <span class="o">=</span> <span class="n">eigh</span><span class="p">(</span><span class="n">Lapl</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">vals</span><span class="p">,</span> <span class="n">U</span>
 </pre></div>
 
     </div>
@@ -13320,7 +13320,7 @@ div#notebook {
     <span class="k">with</span> <span class="n">output</span><span class="p">:</span>
         <span class="n">display</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span> 
         
-<span class="k">def</span> <span class="nf">draw_widget</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">draw_widget</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="c1"># clear the output</span>
     <span class="n">output</span><span class="o">.</span><span class="n">clear_output</span><span class="p">()</span>
     <span class="c1"># add the grid to output</span>
@@ -13328,9 +13328,11 @@ div#notebook {
     <span class="c1"># add the graph to the output</span>
     <span class="n">draw_graph</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
     <span class="c1"># add eigenvalues to the output</span>
-    <span class="n">eig</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">lapl_eigen</span><span class="p">()</span>
+    <span class="n">eig</span><span class="p">,</span> <span class="n">U</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">lapl_eigen</span><span class="p">()</span>
     <span class="k">with</span> <span class="n">output</span><span class="p">:</span>
         <span class="n">display</span><span class="p">(</span><span class="s2">&quot;Laplacian eigenvalues are </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">eig</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">show</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+            <span class="n">display</span><span class="p">(</span><span class="s2">&quot;Laplacian eigenvectors are </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">U</span><span class="p">))</span>
 
 <span class="k">def</span> <span class="nf">dynamic</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">V</span><span class="p">):</span>
     <span class="n">Mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -13339,7 +13341,7 @@ div#notebook {
     <span class="n">F</span> <span class="o">=</span> <span class="n">Mat</span> <span class="o">@</span> <span class="n">V</span>
     <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">L</span><span class="o">*</span><span class="n">V</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">order</span><span class="o">=</span><span class="s2">&quot;F&quot;</span><span class="p">)</span>
             
-<span class="k">def</span> <span class="nf">gds</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pw_dim</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">gds</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pw_dim</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
     <span class="c1"># sampling matrix</span>
     <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">G</span><span class="o">.</span><span class="n">N_nodes</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">samples</span><span class="p">)])</span>
     <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">samples</span><span class="p">):</span>
@@ -13353,8 +13355,10 @@ div#notebook {
     <span class="n">vals</span><span class="p">,</span> <span class="n">U</span> <span class="o">=</span>  <span class="n">eigh</span><span class="p">(</span><span class="n">Lap</span><span class="p">,</span> <span class="n">subset_by_index</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">pw_dim</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
                             
     <span class="c1"># Compute the dynamical sampling vectors</span>
-    <span class="n">B</span> <span class="o">=</span> <span class="n">dynamic</span><span class="p">(</span><span class="n">Lap</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span>
-    <span class="c1">#B = dynamic(Adj, L, S)</span>
+    <span class="k">if</span> <span class="n">options</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="n">dynamic</span><span class="p">(</span><span class="n">Lap</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">options</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="n">dynamic</span><span class="p">(</span><span class="n">Adj</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span>
                             
     <span class="c1"># Project onto PW space</span>
     <span class="n">PF</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span> <span class="o">@</span> <span class="n">B</span>
@@ -13377,12 +13381,12 @@ div#notebook {
             <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">G</span><span class="o">.</span><span class="n">change_edge</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
-        <span class="n">draw_widget</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+        <span class="n">draw_widget</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">show_eigen</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">change</span><span class="p">[</span><span class="s2">&quot;new&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">change</span><span class="p">[</span><span class="s2">&quot;old&quot;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
         <span class="n">edge_index</span> <span class="o">=</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">change</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">description_tooltip</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span>
         <span class="n">pair</span> <span class="o">=</span> <span class="p">(</span><span class="n">edge_index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>  <span class="n">edge_index</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         <span class="n">G</span><span class="o">.</span><span class="n">del_edge</span><span class="p">(</span><span class="n">pair</span><span class="p">)</span>
-        <span class="n">draw_widget</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+        <span class="n">draw_widget</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">show_eigen</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">change</span><span class="p">[</span><span class="s2">&quot;new&quot;</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s1">&#39;Weights must be non-negative&#39;</span><span class="p">)</span>
                 
@@ -13393,7 +13397,7 @@ div#notebook {
     <span class="k">if</span> <span class="n">change</span><span class="p">[</span><span class="s2">&quot;new&quot;</span><span class="p">]</span><span class="o">==</span><span class="kc">False</span><span class="p">:</span>
         <span class="n">node</span> <span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">change</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">description_tooltip</span><span class="p">)</span>
         <span class="n">G</span><span class="o">.</span><span class="n">del_sample</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
-    <span class="n">draw_widget</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+    <span class="n">draw_widget</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">show_eigen</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
         
 <span class="c1"># add_node button</span>
 <span class="n">button1</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
@@ -13405,7 +13409,7 @@ div#notebook {
 
 <span class="k">def</span> <span class="nf">button1_click</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
     <span class="n">G</span><span class="o">.</span><span class="n">add_node</span><span class="p">()</span>
-    <span class="n">draw_widget</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+    <span class="n">draw_widget</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">show_eigen</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
         
 <span class="c1"># reset graph</span>
 <span class="n">button2</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
@@ -13417,7 +13421,7 @@ div#notebook {
 
 <span class="k">def</span> <span class="nf">button2_click</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
     <span class="n">G</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-    <span class="n">draw_widget</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+    <span class="n">draw_widget</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">show_eigen</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
 
 <span class="c1"># remove a node</span>
 <span class="n">button3</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
@@ -13433,7 +13437,7 @@ div#notebook {
 
 <span class="k">def</span> <span class="nf">button3_click</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
     <span class="n">G</span><span class="o">.</span><span class="n">del_node</span><span class="p">(</span><span class="n">rmnode</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-    <span class="n">draw_widget</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+    <span class="n">draw_widget</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">show_eigen</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
 
 <span class="n">button4</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
     <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Frame bounds&#39;</span><span class="p">,</span>
@@ -13454,9 +13458,22 @@ div#notebook {
                     <span class="n">discription</span><span class="o">=</span><span class="s2">&quot;PW dim&quot;</span>
                 <span class="p">)</span>
 
+<span class="n">mat_select</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">ToggleButtons</span><span class="p">(</span>
+    <span class="n">options</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;Laplacian&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Adjacency&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)],</span>
+    <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">button_style</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="c1"># &#39;success&#39;, &#39;info&#39;, &#39;warning&#39;, &#39;danger&#39; or &#39;&#39;</span>
+    <span class="n">tooltips</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Description of slow&#39;</span><span class="p">,</span> <span class="s1">&#39;Description of regular&#39;</span><span class="p">,</span> <span class="s1">&#39;Description of fast&#39;</span><span class="p">],</span>
+<span class="c1">#     icons=[&#39;check&#39;] * 3</span>
+<span class="p">)</span>
+
+<span class="n">show_eigen</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Checkbox</span><span class="p">(</span>
+            <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Show laplacian eigenvalues&quot;</span><span class="p">)</span>
+
+
 <span class="k">def</span> <span class="nf">button4_click</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
-    <span class="n">draw_widget</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
-    <span class="n">gds</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pw_dim_widget</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">num_iter_widget</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+    <span class="n">draw_widget</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">show_eigen</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="n">gds</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pw_dim_widget</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">num_iter_widget</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">mat_select</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
         
 <span class="n">button1</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="n">button1_click</span><span class="p">)</span>
 <span class="n">button2</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="n">button2_click</span><span class="p">)</span>
@@ -13465,11 +13482,10 @@ div#notebook {
 
 <span class="c1"># to access the children of controls, do controls.children so can add new widgets</span>
 <span class="n">controls</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">([</span><span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">([</span><span class="n">button2</span><span class="p">,</span> <span class="n">button1</span><span class="p">,</span> <span class="n">button4</span><span class="p">]),</span> 
-                      <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">([</span><span class="n">rmnode</span><span class="p">,</span> <span class="n">button3</span><span class="p">]),</span>
-                      <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">([</span><span class="n">num_iter_widget</span><span class="p">,</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="s2">&quot; = iterations&quot;</span><span class="p">)]),</span>
-                      <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">([</span><span class="n">pw_dim_widget</span><span class="p">,</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="s2">&quot; = PW dimension&quot;</span><span class="p">)]),</span>
-                    <span class="p">]</span>
-                    <span class="p">)</span>
+                         <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">([</span><span class="n">rmnode</span><span class="p">,</span> <span class="n">button3</span><span class="p">]),</span>
+                         <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">([</span><span class="n">mat_select</span><span class="p">,</span><span class="n">show_eigen</span><span class="p">]),</span>
+                         <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">([</span><span class="n">num_iter_widget</span><span class="p">,</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="s2">&quot; = iterations&quot;</span><span class="p">)]),</span>
+                         <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">([</span><span class="n">pw_dim_widget</span><span class="p">,</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="s2">&quot; = PW dimension&quot;</span><span class="p">)])])</span>
 <span class="n">draw_widget</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span> <span class="c1"># capture grid and fig with outcome </span>
 <span class="n">display</span><span class="p">(</span><span class="n">controls</span><span class="p">,</span> <span class="n">output</span><span class="p">);</span>
 </pre></div>
