@@ -4,4 +4,4 @@ nbinteract
 matplotlib
 scipy
 networkx
-sklearn.cluster
+sklearn
